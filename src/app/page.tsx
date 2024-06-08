@@ -94,89 +94,92 @@ export default function Home() {
   const trapCardsProbability = remainingTrapCards.length / totalCards
 
   return (
-    <div className={'grid grid-cols-[1fr_3fr] gap-4 p-5 bg-slate-50'}>
-      <div className={'grid grid-rows-5 gap-4'}>
-        {Object.entries(trapCards).map(([cardName, cardData], index) => (
-          <Card key={`${cardName}-${index}`}>
+    <div className={'p-5 '}>
+      <h1 className={'text-3xl font-bold mb-5'}>Incan Gold Assistant</h1>
+      <div className={'grid grid-cols-[1fr_3fr] gap-4 bg-slate-50'}>
+        <div className={'grid grid-rows-5 gap-4'}>
+          {Object.entries(trapCards).map(([cardName, cardData], index) => (
+            <Card key={`${cardName}-${index}`}>
+              <CardHeader>
+                <CardTitle className={'text-5xl flex gap-4'}>
+                  {cardData.title}
+                  <div className={'flex gap-2 items-center'}>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className={'h-5'}
+                      onClick={() =>
+                        updateTrapCardStatus(cardName as keyof Cards, 'minus')
+                      }
+                    >
+                      -
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className={'h-5'}
+                      onClick={() =>
+                        updateTrapCardStatus(cardName as keyof Cards, 'plus')
+                      }
+                    >
+                      +
+                    </Button>
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>Remaining: {countFalse(cardData.status)}</p>
+                <p>
+                  Probabilities: {(probabilities[cardName] * 100).toFixed(2)}%
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <div className={'grid grid-cols-1 gap-4'}>
+          <Card>
             <CardHeader>
-              <CardTitle className={'text-5xl flex gap-4'}>
-                {cardData.title}
-                <div className={'flex gap-2 items-center'}>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className={'h-5'}
-                    onClick={() =>
-                      updateTrapCardStatus(cardName as keyof Cards, 'minus')
-                    }
-                  >
-                    -
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className={'h-5'}
-                    onClick={() =>
-                      updateTrapCardStatus(cardName as keyof Cards, 'plus')
-                    }
-                  >
-                    +
-                  </Button>
-                </div>
-              </CardTitle>
+              <CardTitle>Other Cards</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>Remaining: {countFalse(cardData.status)}</p>
+              <p>Count: {otherCards}</p>
+            </CardContent>
+            <CardFooter className={'gap-2'}>
+              <Button
+                variant="outline"
+                size="icon"
+                className={'h-5'}
+                onClick={() => handleOtherCardsChange('minus')}
+              >
+                -
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className={'h-5'}
+                onClick={() => handleOtherCardsChange('plus')}
+              >
+                +
+              </Button>
+            </CardFooter>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Summary</CardTitle>
+            </CardHeader>
+
+            <CardContent>
+              <p>Total trapCards: {remainingTrapCards.length}</p>
+              <p>Total otherCards: {otherCards}</p>
+              <p>Total cards: {totalCards}</p>
               <p>
-                Probabilities: {(probabilities[cardName] * 100).toFixed(2)}%
+                Probability of any trapCard:{' '}
+                {(trapCardsProbability * 100).toFixed(2)}%
               </p>
             </CardContent>
           </Card>
-        ))}
-      </div>
-      <div className={'grid grid-cols-1 gap-4'}>
-        <Card>
-          <CardHeader>
-            <CardTitle>Other Cards</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>Count: {otherCards}</p>
-          </CardContent>
-          <CardFooter className={'gap-2'}>
-            <Button
-              variant="outline"
-              size="icon"
-              className={'h-5'}
-              onClick={() => handleOtherCardsChange('minus')}
-            >
-              -
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className={'h-5'}
-              onClick={() => handleOtherCardsChange('plus')}
-            >
-              +
-            </Button>
-          </CardFooter>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Summary</CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <p>Total trapCards: {remainingTrapCards.length}</p>
-            <p>Total otherCards: {otherCards}</p>
-            <p>Total cards: {totalCards}</p>
-            <p>
-              Probability of any trapCard:{' '}
-              {(trapCardsProbability * 100).toFixed(2)}%
-            </p>
-          </CardContent>
-        </Card>
+        </div>
       </div>
     </div>
   )
