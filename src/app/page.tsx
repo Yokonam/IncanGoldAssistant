@@ -90,6 +90,7 @@ export default function Home() {
 
   const remainingTrapCards = getRemainingTrapCards()
   const probabilities = calculateProbabilities(remainingTrapCards)
+  console.log(probabilities)
   const totalCards = remainingTrapCards.length + otherCards
   const trapCardsProbability = remainingTrapCards.length / totalCards
 
